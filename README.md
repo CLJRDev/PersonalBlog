@@ -50,7 +50,7 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 - **Users**: Admin account to log in and manage content
 - **Categories**: Blog categories like C#, Java, FE, BE, etc.
 - **Posts**: Blog entries belonging to a specific category
-- **Comments** (optional): For future extension
+- **Comments**: Comments belonging to a post
 
 ---
 
