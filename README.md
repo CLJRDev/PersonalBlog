@@ -43,3 +43,19 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 - Controllers/ # API controllers for Posts, Categories, Auth
 - Program.cs # Application entry point
 
+---
+
+## 📦 Database Schema
+
+- **Users**: Admin account to log in and manage content
+- **Categories**: Blog categories like C#, Java, FE, BE, etc.
+- **Posts**: Blog entries belonging to a specific category
+- **Comments** (optional): For future extension
+
+---
+
+## 📌 Future Improvements
+Add comment functionality
+Implement user registration
+Add likes/bookmarks for posts
+Admin dashboard with post stats
