@@ -30,7 +30,7 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 - **SQL Server**
 
 ### Frontend
-- HTML, CSS, JavaScript
+- HTML, CSS, JavaScript, Angular 16
 - Fetch API for backend communication
 - CKEditor for content editing
 
@@ -39,8 +39,7 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 ## 📁 Project Structure
 
 /PersonalBlog
-│
-├── Models/ # EF Core entity models
-├── Controllers/ # API controllers for Posts, Categories, Auth
-├── Program.cs # Application entry point
-└── README.md
+--Models/ # EF Core entity models
+--Controllers/ # API controllers for Posts, Categories, Auth
+--Program.cs # Application entry point
+
