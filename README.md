@@ -55,7 +55,7 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 ---
 
 ## 📌 Future Improvements
-Add comment functionality
-Implement user registration
-Add likes/bookmarks for posts
-Admin dashboard with post stats
+- Add comment functionality
+- Implement user registration
+- Add likes/bookmarks for posts
+- Admin dashboard with post stats
