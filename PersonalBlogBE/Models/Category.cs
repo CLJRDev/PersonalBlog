@@ -18,6 +18,6 @@ namespace PersonalBlogBE.Models
         public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public ICollection<Post> Posts { get; set; } 
+        public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }
