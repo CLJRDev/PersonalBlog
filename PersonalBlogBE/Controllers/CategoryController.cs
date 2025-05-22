@@ -66,7 +66,14 @@ namespace PersonalBlogBE.Controllers
             category.Slug = obj.Slug;
             category.Description = obj.Description;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
 
             return Ok(new { message = "Category updated successfully!" });
         }
@@ -88,7 +95,7 @@ namespace PersonalBlogBE.Controllers
         {
             if (categories == null || categories.Count == 0)
             {
-                return BadRequest("Category list is empty.");
+                return BadRequest("No categories to add!");
             }
 
             _context.Categories.AddRange(categories);
@@ -102,10 +109,6 @@ namespace PersonalBlogBE.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (_context.Categories == null)
-            {
-                return NotFound(new { message = "Category not found!" });
-            }
             var category = await _context.Categories.FindAsync(id);
 
             if (category == null)

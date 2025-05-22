@@ -24,10 +24,10 @@ namespace PersonalBlogBE.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound(new {message = "User list is empty!"});
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -35,15 +35,15 @@ namespace PersonalBlogBE.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound(new { message = "User list is empty!" });
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound(new { message = "User not found!"});
             }
 
             return user;
@@ -52,32 +52,29 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, User obj)
         {
-            if (id != user.Id)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
-                return BadRequest();
+                return NotFound(new { message = "User not found!" });
             }
-
-            _context.Entry(user).State = EntityState.Modified;
+            
+            user.FullName = obj.FullName;
+            user.Email = obj.Email;
+            user.IsAdmin = obj.IsAdmin;
+            user.Username = obj.Username;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+            {               
+                throw;                
             }
 
-            return NoContent();
+            return Ok(new { message = "User updated successfully!" });
         }
 
         // POST: api/User
@@ -85,34 +82,42 @@ namespace PersonalBlogBE.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'BlogDbContext.Users'  is null.");
-          }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok(new { message = "User created successfully!" });
         }
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
             var user = await _context.Users.FindAsync(id);
+
             if (user == null)
             {
-                return NotFound();
+                return NotFound(new {message = "User not found!"});
             }
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "User deleted successfully!" });
+        }
+
+        // POST: Thêm danh sách user
+        [HttpPost("bulk")]
+        public async Task<IActionResult> BulkInsertUsers([FromBody]List<User> users)
+        {
+            if (users == null || users.Count == 0)
+            {
+                return BadRequest(new { message = "No users to add!" });
+            }
+            _context.Users.AddRange(users);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Users created successfully!" });
         }
 
         private bool UserExists(int id)
