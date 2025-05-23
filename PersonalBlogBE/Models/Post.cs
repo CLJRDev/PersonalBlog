@@ -28,12 +28,13 @@ namespace PersonalBlogBE.Models
         public bool IsPublished { get; set; } = false;
 
         // Foreign keys
+        
         public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
         public int AuthorId { get; set; }
+        [ForeignKey("AuthorId")]
         public User Author { get; set; }
-
-
     }
 }

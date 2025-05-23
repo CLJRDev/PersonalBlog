@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PersonalBlogBE.Dto;
 using PersonalBlogBE.Models;
 
 namespace PersonalBlogBE.Controllers
@@ -52,7 +53,7 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/Post/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, Post obj)
+        public async Task<IActionResult> PutPost(int id,[FromForm] PostDto form)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
@@ -60,14 +61,43 @@ namespace PersonalBlogBE.Controllers
                 return NotFound(new { message = "Post not found!" });
             }
 
-            post.Title = obj.Title;
-            post.Slug = obj.Slug;
-            post.Content = obj.Content;
-            post.ImageUrl = obj.ImageUrl;
+            //1. Lấy thông tin từ form
+            post.Title = form.Title;
+            post.Slug = form.Slug;
+            post.Content = form.Content;
             post.UpdatedAt = DateTime.Now;
-            post.IsPublished = obj.IsPublished;
-            post.CategoryId = obj.CategoryId;
+            post.IsPublished = form.IsPublished;
+            post.CategoryId = form.CategoryId;
 
+            //2. Xử lý ảnh
+            if (form.Image != null && form.Image.Length > 0)
+            {
+                //2.1. Delete old image if exists
+                if (!string.IsNullOrEmpty(post.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                //2.2. Save new image
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/posts");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(form.Image.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await form.Image.CopyToAsync(stream);
+                }
+                post.ImageUrl = $"/images/posts/{fileName}";
+            }
+
+            //3. Lưu vào database
             try
             {
                 await _context.SaveChangesAsync();
@@ -83,10 +113,52 @@ namespace PersonalBlogBE.Controllers
         // POST: api/Post
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
+        public async Task<ActionResult> PostPost([FromForm] PostDto form)
         {
+            //1. Lấy thông tin từ form
+            var post = new Post
+            {
+                Title = form.Title,
+                Slug = form.Slug,
+                Content = form.Content,
+                ImageUrl = null,
+                CreatedAt = DateTime.Now,
+                IsPublished = form.IsPublished,
+                CategoryId = form.CategoryId,
+                AuthorId = form.AuthorId
+            };
+
+            //2. Xử lý ảnh
+            if(form.Image != null && form.Image.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/posts");
+                if(!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(form.Image.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await form.Image.CopyToAsync(stream);
+                }
+
+                post.ImageUrl = $"/images/posts/{fileName}";
+            }            
+
             _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
+
+            //3. Lưu vào database
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
 
             return Ok(new { message = "Post created successfully!" });
         }
@@ -102,23 +174,26 @@ namespace PersonalBlogBE.Controllers
             }
 
             _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            //Xóa ảnh nếu có
+            if (post.ImageUrl != null)
+            {
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImageUrl.TrimStart('/'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }            
 
             return Ok(new { message = "Post deleted successfully!" });
-        }
-
-        // POST: Thêm danh sách bài đăng
-        [HttpPost("bulk")]
-        public async Task<IActionResult> BulkInserPosts([FromBody] List<Post> posts)
-        {
-            if (posts == null || posts.Count == 0)
-            {
-                return BadRequest(new { message = "No posts to add!" });
-            }
-            _context.Posts.AddRange(posts);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Posts added successfully!" });
         }
 
         private bool PostExists(int id)
