@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,9 @@ using PersonalBlogBE.Models;
 
 namespace PersonalBlogBE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly BlogDbContext _context;
@@ -28,6 +30,7 @@ namespace PersonalBlogBE.Controllers
             {
                 return NotFound(new {message = "User list is empty!"});
             }
+
             return await _context.Users.ToListAsync();
         }
 
