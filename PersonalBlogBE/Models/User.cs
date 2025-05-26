@@ -19,7 +19,10 @@ namespace PersonalBlogBE.Models
 
         [Required, Column(TypeName="nvarchar(255)")]
         public string FullName { get; set; }
-        
+
+        [Column(TypeName = "nvarchar(255)")]
+        public string ImageUrl { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
         public bool IsAdmin { get; set; }

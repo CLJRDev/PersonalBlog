@@ -174,6 +174,7 @@ namespace PersonalBlogBE.Controllers
             }
 
             _context.Posts.Remove(post);
+
             try
             {
                 await _context.SaveChangesAsync();
