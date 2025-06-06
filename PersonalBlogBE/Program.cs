@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using PersonalBlogBE.Interfaces;
+using PersonalBlogBE.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,8 @@ builder.Services.AddSwaggerGen(options =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 //Connect with Database
 builder.Services.AddDbContext<BlogDbContext>(option =>

@@ -148,6 +148,10 @@ namespace PersonalBlogBE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("EmailConfirmToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
@@ -157,6 +161,9 @@ namespace PersonalBlogBE.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsConfirmEmail")
                         .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")

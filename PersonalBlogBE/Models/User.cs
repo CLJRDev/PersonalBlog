@@ -25,6 +25,9 @@ namespace PersonalBlogBE.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
+        public bool IsConfirmEmail { get; set; } = false;
+        public string EmailConfirmToken { get; set; } = "";
+
         public bool IsAdmin { get; set; }
         public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
