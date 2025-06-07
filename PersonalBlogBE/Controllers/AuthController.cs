@@ -9,6 +9,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using PersonalBlogBE.Interfaces;
+using Microsoft.Win32;
 
 namespace PersonalBlogBE.Controllers
 {
@@ -44,11 +45,15 @@ namespace PersonalBlogBE.Controllers
             }
 
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(login.Password, user.PasswordHash);
-            if(!isPasswordValid)
+            if (!isPasswordValid)
             {
                 return Unauthorized(new { message = "Invalid username or password." });
             }
 
+            if (!user.IsConfirmEmail)
+            {
+                return BadRequest(new { message = "Please confirm your email before logging in." });
+            }
 
             // Generate JWT token
             var claims = new[]

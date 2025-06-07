@@ -13,7 +13,8 @@ namespace PersonalBlogBE.Controllers
 {
     [Route("api/[controller]")]    
     [ApiController]
-    [Authorize]
+    [Authorize] // Chỉ cho phép người dùng đã đăng nhập truy cập
+    [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
     public class UserController : ControllerBase
     {
         private readonly BlogDbContext _context;
@@ -167,6 +168,7 @@ namespace PersonalBlogBE.Controllers
                 Email = payload.Email,
                 FullName = payload.FullName,
                 IsAdmin = payload.IsAdmin,
+                IsConfirmEmail = true,
                 CreatedAt = DateTime.Now,
             };
 

@@ -1,4 +1,4 @@
-using PersonalBlogBE.Models;
+﻿using PersonalBlogBE.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -62,6 +62,12 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
     };
+});
+
+//Tạo policy cho Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("isAdmin", "True"));
 });
 
 var app = builder.Build();

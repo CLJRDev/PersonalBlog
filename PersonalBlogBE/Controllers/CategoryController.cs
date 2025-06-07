@@ -56,6 +56,7 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
         public async Task<IActionResult> PutCategory(int id, Category obj)
         {
             var category   = await _context.Categories.FindAsync(id);
@@ -83,6 +84,7 @@ namespace PersonalBlogBE.Controllers
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
             _context.Categories.Add(category);
@@ -93,6 +95,7 @@ namespace PersonalBlogBE.Controllers
 
         // Thêm một list các category
         [HttpPost("bulk")]
+        [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
         public async Task<IActionResult> BulkInsertCategories([FromBody] List<Category> categories)
         {
             if (categories == null || categories.Count == 0)
@@ -109,6 +112,7 @@ namespace PersonalBlogBE.Controllers
 
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
