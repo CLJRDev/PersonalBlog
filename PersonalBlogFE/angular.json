@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "inlineStyle": true,
+          "inlineStyle": false,
           "skipTests": true
         },
         "@schematics/angular:class": {
@@ -51,7 +51,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": []
           },
@@ -113,7 +114,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": []
           }
