@@ -8,6 +8,8 @@ DevBlog is a blogging platform built with ASP.NET Core and Entity Framework Core
 
 ### Public Website
 - View the 10 latest blog posts
+- Create Posts using CKEditor for rich text editing
+- Register new accounts
 - Filter posts by category
 - Pagination support
 
