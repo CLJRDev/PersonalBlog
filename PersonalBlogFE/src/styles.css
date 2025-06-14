@@ -3,6 +3,7 @@
 
 :root {
   --sys-primary: rgb(0, 123, 255);
+  --sys-primary-active: rgb(61, 153, 252);
   --sys-on-primary: rgb(255, 255, 255);
   --sys-primary-container: rgb(220, 230, 255);
   --sys-on-primary-container: rgb(0, 0, 0);
@@ -17,4 +18,62 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.page-container {
+  width: 1250px;
+  margin-bottom: 50px;
+  ;
+}
+
+.page-container .form-container,
+.page-container .table-container {
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.page-container .table-container tr {
+  height: 56px;
+  vertical-align: middle;
+}
+
+.page-container .table-container tbody tr td {
+  padding: 16px 8px;
+}
+
+.page-container .form-container .search-container input {
+  width: 400px;
+  border-radius: 8px;
+  padding: 6px 15px;
+  border: 1px solid #ced4da;
+}
+
+.page-container .table-container .avt-img {
+  width: 45px;
+  border-radius: 50%;
+}
+
+.page-container .form-container .search-container input:focus {
+  border: 1px solid var(--sys-primary);
+  outline: none;
+}
+
+.page-container .form-container .search-container .but-search {
+  border: none;
+  background-color: transparent;
+  margin-left: -40px;
+}
+
+.page-container .form-container .btn-add {
+  background-color: var(--sys-primary);
+  color: var(--sys-on-primary);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.page-container .form-container .btn-add:active {
+  background-color: var(--sys-primary-active);
 }

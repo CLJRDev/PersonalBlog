@@ -1,0 +1,7 @@
+.main-content {
+  margin-top: 110px;
+  margin-left: 300px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+}
