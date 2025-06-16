@@ -9,6 +9,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './admin/admin-layout.component';
@@ -46,7 +47,8 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     NzTableModule,
-    HttpClientModule
+    HttpClientModule,
+    NzPaginationModule
   ],
   bootstrap: [AppComponent],
   providers: [
