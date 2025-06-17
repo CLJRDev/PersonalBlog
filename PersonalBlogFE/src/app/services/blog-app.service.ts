@@ -13,7 +13,7 @@ export class BlogAppService {
   constructor(private http: HttpClient) { }
 
   refreshUser() {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZm9yZXN0X25ndXllbiIsImlzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzUwMDkzMTE4fQ.ybmf3h_55wL5jtcHOoc2gJA2juHBWZXKwJhKY-FEfEg';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZm9yZXN0X25ndXllbiIsImlzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzUwMTcwOTEzfQ.PrTYXoWsfgz1rtGLBoD5kmS59krlT0k4T-KL8RRWAZs';
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
@@ -21,7 +21,6 @@ export class BlogAppService {
     return this.http.get(`${this.apiUrl}/User`, { headers })
       .subscribe({
         next: res => {
-          console.log(res);
           this.userList = res as User[];
         },
         error: err => {

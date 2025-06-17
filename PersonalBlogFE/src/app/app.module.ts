@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './admin/admin-layout.component';
@@ -20,8 +21,10 @@ import { CategoryPageComponent } from './admin/pages/category-page/category-page
 import { PostPageComponent } from './admin/pages/post-page/post-page.component';
 import { DashboardPageComponent } from './admin/pages/dashboard-page/dashboard-page.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
-import { AuthComponent } from './admin/pages/auth/auth.component';
-
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { AuthLayoutComponent } from './auth/auth-layout.component';
 
 
 registerLocaleData(en);
@@ -38,7 +41,10 @@ registerLocaleData(en);
     PostPageComponent,
     DashboardPageComponent,
     DateFormatPipe,
-    AuthComponent
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    AuthLayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,8 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzTableModule,
     HttpClientModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzCheckboxModule
   ],
   bootstrap: [AppComponent],
   providers: [

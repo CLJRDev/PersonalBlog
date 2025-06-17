@@ -71,14 +71,6 @@ body {
   border-color: #87e8de;
 }
 
-.page-container .table-container .e-verifed {
-  color: #389e0d;
-}
-
-.page-container .table-container .e-ban {
-  color: #cf1322;
-}
-
 .page-container .form-container .search-container input:focus {
   border: 1px solid var(--sys-primary);
   outline: none;
@@ -100,5 +92,75 @@ body {
 }
 
 .page-container .form-container .btn-add:active {
+  background-color: var(--sys-primary-active);
+}
+
+.auth-layout-container {
+  background-color: #e1e9eb;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-layout-container .form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 480px;
+}
+
+
+.auth-layout-container .form-container .login-form {
+  width: 100%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auth-layout-container .form-container .login-form .btn-social-login {
+  border-radius: 8px;
+  border: 1px solid var(--sys-primary);
+  color: var(--sys-primary);
+  transition: background-color 0.3s ease;
+}
+
+.auth-layout-container .form-container .login-form .btn-social-login:active {
+  background-color: var(--sys-primary-active);
+  color: #fff;
+}
+
+.auth-layout-container .form-container .login-form input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  margin-bottom: 15px;
+}
+
+.auth-layout-container .form-container .login-form input:focus {
+  border-color: var(--sys-primary);
+  outline: none;
+}
+
+.auth-layout-container .form-container .login-form .ant-checkbox-inner {
+  width: 20px;
+  height: 20px;
+  color: var(--sys-primary);
+}
+
+.auth-layout-container .form-container .login-form .btn-login {
+  background-color: var(--sys-primary);
+  padding: 8px 10px;
+  color: var(--sys-on-primary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.auth-layout-container .form-container .login-form .btn-login:active {
   background-color: var(--sys-primary-active);
 }
