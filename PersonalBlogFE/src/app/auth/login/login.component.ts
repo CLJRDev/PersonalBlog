@@ -22,7 +22,7 @@ export class LoginComponent {
         this.router.navigate(['/admin']);
       },
       error: err => {
-        console.error('Login failed:', err);
+        console.error('Login failed:', err)
       }
     })
   }

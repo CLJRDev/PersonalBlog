@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogAppService } from 'src/app/services/blog-app.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-page',
@@ -13,7 +13,7 @@ export class UserPageComponent implements OnInit {
   pageSize: number = 10;
 
   // ========== Constructor ==========
-  constructor(public service: BlogAppService) {}
+  constructor(public service: UserService) {}
 
   // ========== Lifecycle hooks ==========
   ngOnInit(): void {

@@ -4,17 +4,19 @@
       <img src="../../../assets/images/admin/logo.svg" alt="Logo">
     </div>
     <div class="d-flex gap-3">
-      <button class="w-100 py-2 d-flex align-items-center justify-content-center gap-2 btn-social-login">
+      <button type="button" class="w-100 py-2 d-flex align-items-center justify-content-center gap-2 btn-social-login">
         <img style="width: 22px" src="../../../assets/images/admin/google-icon.svg" alt="Google">
         <span>Sign in with Google</span>
       </button>
-      <button class="w-100 py-2 d-flex align-items-center justify-content-center gap-2 btn-social-login">
+      <button type="button" class="w-100 py-2 d-flex align-items-center justify-content-center gap-2 btn-social-login">
         <img style="width: 22px" src="../../../assets/images/admin/facebook-icon-cropped.svg" alt="Facebook">
         <span>Sign in with FB</span>
       </button>
     </div>
-    <div class="text-center">
-      <h6 class="m-0">or sign in with</h6>
+    <div class="d-flex align-items-center text-muted gap-2">
+      <div class="flex-grow-1" style="border-top: 1px solid #ccc;"></div>
+      <span class="px-2 fs-6" style="white-space: nowrap;">or sign in with</span>
+      <div class="flex-grow-1" style="border-top: 1px solid #ccc;"></div>
     </div>
     <div class="d-flex flex-column gap-2">
       <label style="font-weight: 600;" for="username">Username</label>
@@ -22,13 +24,15 @@
     </div>
     <div class="d-flex flex-column gap-2">
       <label style="font-weight: 600;" for="password">Password</label>
-      <input [(ngModel)]="password" id="password" type="text" class="mb-0" type="password" name="password" required>
+      <input [(ngModel)]="password" id="password" type="text" class="mb-0" type="password" name="password"
+        autocomplete="new-password" required>
     </div>
     <div class="d-flex justify-content-between align-items-center">
       <div class="ps-2">
         <label nz-checkbox name="rememberDevice" [(ngModel)]="rememberDevice">Remember this Device</label>
       </div>
-      <button style="border: none; background-color: transparent; font-weight: 600; color: var(--sys-primary);">
+      <button type="button"
+        style="border: none; background-color: transparent; font-weight: 600; color: var(--sys-primary);">
         Forgot Password ?
       </button>
     </div>
@@ -36,7 +40,8 @@
       Sign In
     </button>
     <div class="d-flex justify-content-center align-items-center gap-1">
-      <span class="fs-6">New User?</span><button
+      <span class="fs-6">New User?</span>
+      <button type="button"
         style="border: none; background-color: transparent; font-weight: 600; color: var(--sys-primary);">Create an
         account</button>
     </div>

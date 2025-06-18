@@ -9,11 +9,13 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AuthLayoutComponent } from './auth/auth-layout.component';
+import { authGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [authGuard], // Ensure user is authenticated
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'user', component: UserPageComponent },
