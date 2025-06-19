@@ -11,6 +11,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './admin/admin-layout.component';
@@ -55,7 +57,9 @@ registerLocaleData(en);
     NzTableModule,
     HttpClientModule,
     NzPaginationModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzButtonModule,
+    NzModalModule
   ],
   bootstrap: [AppComponent],
   providers: [
