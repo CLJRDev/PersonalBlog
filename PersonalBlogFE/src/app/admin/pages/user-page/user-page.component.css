@@ -1,0 +1,14 @@
+#image {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  background-color: var(--sys-primary);
+  color: var(--sys-on-primary);
+  cursor: pointer;
+  transition: 0.25 ease;
+}
+
+#image:active {
+  background-color: var(--sys-primary-active);
+}

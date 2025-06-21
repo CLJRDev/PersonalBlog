@@ -20,8 +20,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of paginatedUsers">
-          <td style="width: 50px;" class="text-center">{{user.id}}</td>
+        <tr *ngFor="let user of paginatedUsers, let i = index">
+          <td style="width: 50px;" class="text-center">{{(currentPage - 1) * pageSize + i + 1}}</td>
           <td class="d-flex align-items-center gap-3">
             <img class="avt-img" [src]="'http://localhost:5019' + user.imageUrl" alt="avt">
             <div class="d-flex flex-column justify-content-center">
@@ -52,52 +52,57 @@
   </div>
 </div>
 <nz-modal [(nzVisible)]="isVisible" [nzBodyStyle]="" [nzStyle]="modalStyle" [nzFooter]="null"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <div class="modal-container d-flex flex-column gap-4">
       <div class="header fs-5 text-center" style="font-weight: 600;">Add User</div>
+      <div class="d-flex gap-3 align-items-center">
+        <img [src]="previewImageUrl" alt="Avartar" style="width: 45px; border-radius: 50%; object-fit: cover;">
+        <input type="file" id="image" name="image" (change)="onImageSelected($event)">
+      </div>
       <div class="d-flex gap-3">
         <div class="d-flex flex-column gap-1 w-100">
           <label for="username">Username</label>
-          <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="username"/>
+          <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="user.username" />
         </div>
         <div class="d-flex flex-column gap-1 w-100">
           <label for="fullName">Full Name</label>
-          <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="fullName"/>
+          <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="user.fullName" />
         </div>
       </div>
       <div class="d-flex gap-3">
         <div class="d-flex flex-column gap-1 w-100">
           <label for="password">Password</label>
-          <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="password"/>
+          <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="user.password" />
         </div>
         <div class="d-flex flex-column gap-1 w-100">
           <label for="confirmPassword">Confirm Password</label>
-          <input id="confirmPassword" type="password" name="confirmPassword" class="modal-input" [(ngModel)]="confirmPassword"/>
+          <input id="confirmPassword" type="password" name="confirmPassword" class="modal-input"
+            [(ngModel)]="user.confirmPassword" />
         </div>
       </div>
       <div class="d-flex gap-3">
         <div class="d-flex flex-column gap-1 w-100">
           <label for="email">Email</label>
-          <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="email"/>
+          <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="user.email" />
         </div>
         <div class="d-flex flex-column gap-1 w-100">
           <label>Role</label>
           <div class="d-flex gap-3">
             <label>
-              <input type="radio" name="isAdmin" [(ngModel)]="isAdmin" [value]="true" />
+              <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="true" />
               Admin
             </label>
             <label>
-              <input type="radio" name="isAdmin" [(ngModel)]="isAdmin" [value]="false" />
+              <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="false" />
               User
             </label>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-end gap-2">
-        <button class="btn-modal-add">Add</button>
-        <button class="btn-modal-cancel">Cancel</button>
+        <button (click)="addUser()" type="submit" class="btn-modal-add">Add</button>
+        <button (click)="handleCancel()" type="button" class="btn-modal-cancel">Cancel</button>
       </div>
     </div>
   </ng-container>
