@@ -60,43 +60,55 @@
         <img [src]="previewImageUrl" alt="Avartar" style="width: 45px; border-radius: 50%; object-fit: cover;">
         <input type="file" id="image" name="image" (change)="onImageSelected($event)">
       </div>
-      <div class="d-flex gap-3">
-        <div class="d-flex flex-column gap-1 w-100">
-          <label for="username">Username</label>
-          <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="user.username" />
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex gap-3">
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="user.username" (ngModelChange)="clearError('username')"/>
+            <small class="text-danger text-end" [style.visibility]="formErrors.username ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.username }}</small>
+          </div>
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="user.fullName" (ngModelChange)="clearError('fullName')"/>
+            <small class="text-danger text-end" [style.visibility]="formErrors.fullName ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.fullName }}</small>
+          </div>
         </div>
-        <div class="d-flex flex-column gap-1 w-100">
-          <label for="fullName">Full Name</label>
-          <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="user.fullName" />
+        <div class="d-flex gap-3">
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="user.password" (ngModelChange)="clearError('password')"/>
+            <small class="text-danger text-end" [style.visibility]="formErrors.password ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.password }}</small>
+          </div>
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" type="password" name="confirmPassword" class="modal-input"
+              [(ngModel)]="user.confirmPassword" (ngModelChange)="clearError('confirmPassword')"/>
+            <small class="text-danger text-end" [style.visibility]="formErrors.confirmPassword ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.confirmPassword }}</small>
+          </div>
         </div>
-      </div>
-      <div class="d-flex gap-3">
-        <div class="d-flex flex-column gap-1 w-100">
-          <label for="password">Password</label>
-          <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="user.password" />
-        </div>
-        <div class="d-flex flex-column gap-1 w-100">
-          <label for="confirmPassword">Confirm Password</label>
-          <input id="confirmPassword" type="password" name="confirmPassword" class="modal-input"
-            [(ngModel)]="user.confirmPassword" />
-        </div>
-      </div>
-      <div class="d-flex gap-3">
-        <div class="d-flex flex-column gap-1 w-100">
-          <label for="email">Email</label>
-          <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="user.email" />
-        </div>
-        <div class="d-flex flex-column gap-1 w-100">
-          <label>Role</label>
-          <div class="d-flex gap-3">
-            <label>
-              <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="true" />
-              Admin
-            </label>
-            <label>
-              <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="false" />
-              User
-            </label>
+        <div class="d-flex gap-3">
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="user.email" (ngModelChange)="clearError('email')"/>
+            <small class="text-danger text-end" [style.visibility]="formErrors.email ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.email }}</small>
+          </div>
+          <div class="d-flex flex-column gap-1 w-100">
+            <label>Role</label>
+            <div class="d-flex gap-3">
+              <label>
+                <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="true" />
+                Admin
+              </label>
+              <label>
+                <input type="radio" name="isAdmin" [(ngModel)]="user.isAdmin" [value]="false" />
+                User
+              </label>
+            </div>
           </div>
         </div>
       </div>

@@ -13,6 +13,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './admin/admin-layout.component';
@@ -59,8 +61,15 @@ registerLocaleData(en);
     NzPaginationModule,
     NzCheckboxModule,
     NzButtonModule,
-    NzModalModule
+    NzModalModule,
+    CommonModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }),
   ],
+
   bootstrap: [AppComponent],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

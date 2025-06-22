@@ -139,12 +139,12 @@ namespace PersonalBlogBE.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser([FromForm] UserDto payload)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = "Invalid data!" });
             }
 
-            if(payload.Password != payload.ConfirmPassword)
+            if (payload.Password != payload.ConfirmPassword)
             {
                 return BadRequest(new { message = "Password and Confirm Password do not match!" });
             }

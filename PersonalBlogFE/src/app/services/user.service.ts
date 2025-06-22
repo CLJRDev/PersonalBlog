@@ -13,11 +13,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  refreshUser() {
-    const token = localStorage.getItem('token');
+  getHeaders() {
+    const token = localStorage.getItem('token')
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
+    return headers
+  }
+
+  refreshUser() {
+    const headers = this.getHeaders()
 
     return this.http.get(`${this.apiUrl}/User`, { headers })
       .subscribe({
@@ -31,10 +36,7 @@ export class UserService {
   }
 
   addUser(formData: FormData): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    })
+    const headers = this.getHeaders()
 
     return this.http.post(`${this.apiUrl}/User`, formData, { headers });
   }
