@@ -14,8 +14,8 @@ namespace PersonalBlogBE.Controllers
 {
     [Route("api/[controller]")]    
     [ApiController]
-    //[Authorize] // Chỉ cho phép người dùng đã đăng nhập truy cập
-    //[Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
+    [Authorize] // Chỉ cho phép người dùng đã đăng nhập truy cập
+    [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
     public class UserController : ControllerBase
     {
         private readonly BlogDbContext _context;
@@ -71,7 +71,7 @@ namespace PersonalBlogBE.Controllers
                 return BadRequest(new { message = "Invalid data!" });
             }
 
-            if (payload.Password != payload.ConfirmPassword)
+            if (payload.Password != payload.ConfirmPassword &&  !String.IsNullOrEmpty(payload.Password) && !String.IsNullOrEmpty(payload.ConfirmPassword))
             {
                 return BadRequest(new { message = "Password and Confirm Password do not match!" });
             }
@@ -92,7 +92,8 @@ namespace PersonalBlogBE.Controllers
             user.Email = payload.Email;
             user.FullName = payload.FullName;
             user.IsAdmin = payload.IsAdmin;
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(payload.Password);
+            if(!String.IsNullOrEmpty(payload.Password) && !String.IsNullOrEmpty(payload.ConfirmPassword))
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(payload.Password);
 
             // Handle image upload if provided
             if(payload.Image != null && payload.Image.Length > 0)

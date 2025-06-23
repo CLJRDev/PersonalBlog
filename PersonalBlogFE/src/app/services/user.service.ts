@@ -37,7 +37,21 @@ export class UserService {
 
   addUser(formData: FormData): Observable<any> {
     const headers = this.getHeaders()
-
     return this.http.post(`${this.apiUrl}/User`, formData, { headers });
+  }
+
+  getUser(id: string): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.get(`${this.apiUrl}/User/${id}`, { headers });
+  }
+
+  updateUser(id: string, formData: FormData): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.put(`${this.apiUrl}/User/${id}`, formData, { headers });
+  }
+
+  deleteUser(id: string): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.delete(`${this.apiUrl}/User/${id}`, { headers });
   }
 }

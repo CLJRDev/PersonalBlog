@@ -8,10 +8,10 @@ namespace PersonalBlogBE.Dtos
         [Required]
         public string Username { get; set; }
 
-        [Required]
+        [ValidateNever]
         public string Password { get; set; }
 
-        [Required]
+        [ValidateNever]
         public string ConfirmPassword { get; set; }
 
         [Required, EmailAddress]

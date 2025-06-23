@@ -22,6 +22,8 @@ export class UserPageComponent implements OnInit {
   selectedImageFile: File | null = null
   defaultImage: string = environment.defaultImageUrl
 
+  isUpdate: boolean = false
+
   formErrors = {
     username: '',
     fullName: '',
@@ -43,10 +45,72 @@ export class UserPageComponent implements OnInit {
     this.currentPage = page
   }
 
-  showModal(): void {
+  showModal(isUpdate: boolean = false, id: string = ''): void {
+    if (isUpdate && id) {
+      this.isUpdate = isUpdate
+      this.getdUser(id)
+    } else {
+      this.resetForm()
+    }
     this.isVisible = true
-    this.resetForm()
     this.resetFormErrors()
+  }
+
+  submitUser(): void {
+    if (this.isUpdate) {
+      this.updateUser()
+    } else {
+      this.addUser()
+    }
+  }
+
+  getdUser(id: string): void {
+    this.service.getUser(id).subscribe({
+      next: res => {
+        this.user = res as User
+        this.previewImageUrl = null
+        this.selectedImageFile = null
+        if (this.fileInput) {
+          this.fileInput.nativeElement.value = '';
+        }
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
+  }
+
+  updateUser(): void {
+    if (this.userValidation()) return
+
+    const formData = new FormData()
+    formData.append('Username', this.user.username)
+    formData.append('FullName', this.user.fullName)
+    if (this.user.password && this.user.confirmPassword) {
+      formData.append('Password', this.user.password)
+      formData.append('ConfirmPassword', this.user.confirmPassword)
+    }
+    formData.append('Email', this.user.email)
+    formData.append('IsAdmin', this.user.isAdmin.toString())
+
+    if (this.selectedImageFile) {
+      formData.append('Image', this.selectedImageFile)
+    }
+
+    this.service.updateUser(this.user.id, formData).subscribe({
+      next: res => {
+        console.log(res)
+        this.toastr.success(res.message, 'User Info')
+        this.service.refreshUser()
+        this.resetFormErrors()
+      },
+      error: err => {
+        console.log(err.error.message)
+        this.toastr.error(err.error.message, 'User Info', {
+          toastClass: 'ngx-toastr custom-toast'
+        })
+      }
+    })
   }
 
   addUser(): void {
@@ -55,7 +119,7 @@ export class UserPageComponent implements OnInit {
     const formData = new FormData()
     formData.append('Username', this.user.username)
     formData.append('FullName', this.user.fullName)
-    formData.append('PassWord', this.user.password)
+    formData.append('Password', this.user.password)
     formData.append('ConfirmPassword', this.user.confirmPassword)
     formData.append('Email', this.user.email)
     formData.append('IsAdmin', this.user.isAdmin.toString())
@@ -80,6 +144,22 @@ export class UserPageComponent implements OnInit {
           })
         }
       })
+  }
+
+  deleteUser(id: string): void {
+    if (window.confirm("Are you sure to delete this user?")) {
+      this.service.deleteUser(id).subscribe({
+        next: res => {
+          this.toastr.success(res.message, 'User Info')
+          this.service.refreshUser()
+        },
+        error: err => {
+          this.toastr.error(err.error.message, 'User Info', {
+            toastClass: 'ngx-toastr custom-toast'
+          })
+        }
+      })
+    }
   }
 
   handleCancel(): void {
@@ -125,6 +205,7 @@ export class UserPageComponent implements OnInit {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
+    this.isUpdate = false
   }
 
   resetFormErrors() {
@@ -160,14 +241,25 @@ export class UserPageComponent implements OnInit {
       result = true;
     }
 
-    if (!this.user.password || this.user.password.trim() === '') {
-      this.formErrors.password = 'Password is required'
-      result = true
-    }
+    if (!this.isUpdate) {
+      if (!this.user.password) {
+        this.formErrors.password = 'Password is required'
+        result = true
+      }
 
-    if (!this.user.confirmPassword || this.user.confirmPassword.trim() === '') {
-      this.formErrors.confirmPassword = 'Confirm Password is required'
-      result = true
+      if (!this.user.confirmPassword) {
+        this.formErrors.confirmPassword = 'Confirm Password is required'
+        result = true
+      }
+    } else {
+      if (this.user.password && !this.user.confirmPassword) {
+        this.formErrors.confirmPassword = 'Confirm Password is required'
+        result = true
+      }
+      if (!this.user.password && this.user.confirmPassword) {
+        this.formErrors.password = 'Password is required'
+        result = true
+      }
     }
 
     return result
