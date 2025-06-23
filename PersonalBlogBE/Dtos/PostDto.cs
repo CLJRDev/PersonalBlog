@@ -17,10 +17,10 @@ namespace PersonalBlogBE.Dto
         public bool IsPublished { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
         [Required]
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public IFormFile Image { get; set; }
     }

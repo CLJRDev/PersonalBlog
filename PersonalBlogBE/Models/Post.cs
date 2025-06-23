@@ -5,8 +5,7 @@ namespace PersonalBlogBE.Models
 {
     public class Post
     {
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required, Column(TypeName="nvarchar(100)")]
         public string Title { get; set; }
@@ -27,13 +26,12 @@ namespace PersonalBlogBE.Models
 
         public bool IsPublished { get; set; } = false;
 
-        // Foreign keys
-        
-        public int CategoryId { get; set; }
+        // Foreign keys        
+        public string CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         public User Author { get; set; }
     }

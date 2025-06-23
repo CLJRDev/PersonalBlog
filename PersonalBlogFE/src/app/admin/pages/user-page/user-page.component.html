@@ -23,7 +23,8 @@
         <tr *ngFor="let user of paginatedUsers, let i = index">
           <td style="width: 50px;" class="text-center">{{(currentPage - 1) * pageSize + i + 1}}</td>
           <td class="d-flex align-items-center gap-3">
-            <img class="avt-img" [src]="'http://localhost:5019' + user.imageUrl" alt="avt">
+            <img class="avt-img" [src]="user.imageUrl ? 'http://localhost:5019' + user.imageUrl : defaultImage"
+              alt="Avatar">
             <div class="d-flex flex-column justify-content-center">
               <span class="fw-bold">{{user.fullName}}</span>
               <span [ngClass]="['role-tag', user.isAdmin ? 'admin-tag' : 'user-tag']">
@@ -46,7 +47,8 @@
     </table>
     <div class="d-flex justify-content-end">
       <nz-pagination [nzPageIndex]="currentPage" [nzTotal]="totalItems" nzShowSizeChanger
-        (nzPageIndexChange)="onPageChange($event)" [nzPageSize]="pageSize">
+        (nzPageIndexChange)="onPageChange($event)" [nzPageSize]="pageSize"
+        (nzPageSizeChange)="onPageSizeChange($event)">
       </nz-pagination>
     </div>
   </div>
@@ -58,19 +60,21 @@
       <div class="header fs-5 text-center" style="font-weight: 600;">Add User</div>
       <div class="d-flex gap-3 align-items-center">
         <img [src]="previewImageUrl" alt="Avartar" style="width: 45px; border-radius: 50%; object-fit: cover;">
-        <input type="file" id="image" name="image" (change)="onImageSelected($event)">
+        <input type="file" id="image" name="image" (change)="onImageSelected($event)" #fileInput>
       </div>
       <div class="d-flex flex-column gap-2">
         <div class="d-flex gap-3">
           <div class="d-flex flex-column gap-1 w-100">
             <label for="username">Username</label>
-            <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="user.username" (ngModelChange)="clearError('username')"/>
+            <input id="username" type="text" name="username" class="modal-input" [(ngModel)]="user.username"
+              (ngModelChange)="clearError('username')" />
             <small class="text-danger text-end" [style.visibility]="formErrors.username ? 'visible' : 'hidden'"
               style="height: 12px;">{{ formErrors.username }}</small>
           </div>
           <div class="d-flex flex-column gap-1 w-100">
             <label for="fullName">Full Name</label>
-            <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="user.fullName" (ngModelChange)="clearError('fullName')"/>
+            <input id="fullName" type="text" name="fullName" class="modal-input" [(ngModel)]="user.fullName"
+              (ngModelChange)="clearError('fullName')" />
             <small class="text-danger text-end" [style.visibility]="formErrors.fullName ? 'visible' : 'hidden'"
               style="height: 12px;">{{ formErrors.fullName }}</small>
           </div>
@@ -78,14 +82,15 @@
         <div class="d-flex gap-3">
           <div class="d-flex flex-column gap-1 w-100">
             <label for="password">Password</label>
-            <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="user.password" (ngModelChange)="clearError('password')"/>
+            <input id="password" type="password" name="password" class="modal-input" [(ngModel)]="user.password"
+              (ngModelChange)="clearError('password')" />
             <small class="text-danger text-end" [style.visibility]="formErrors.password ? 'visible' : 'hidden'"
               style="height: 12px;">{{ formErrors.password }}</small>
           </div>
           <div class="d-flex flex-column gap-1 w-100">
             <label for="confirmPassword">Confirm Password</label>
             <input id="confirmPassword" type="password" name="confirmPassword" class="modal-input"
-              [(ngModel)]="user.confirmPassword" (ngModelChange)="clearError('confirmPassword')"/>
+              [(ngModel)]="user.confirmPassword" (ngModelChange)="clearError('confirmPassword')" />
             <small class="text-danger text-end" [style.visibility]="formErrors.confirmPassword ? 'visible' : 'hidden'"
               style="height: 12px;">{{ formErrors.confirmPassword }}</small>
           </div>
@@ -93,7 +98,8 @@
         <div class="d-flex gap-3">
           <div class="d-flex flex-column gap-1 w-100">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="user.email" (ngModelChange)="clearError('email')"/>
+            <input id="email" type="email" name="email" class="modal-input" [(ngModel)]="user.email"
+              (ngModelChange)="clearError('email')" />
             <small class="text-danger text-end" [style.visibility]="formErrors.email ? 'visible' : 'hidden'"
               style="height: 12px;">{{ formErrors.email }}</small>
           </div>

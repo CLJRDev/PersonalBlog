@@ -5,8 +5,7 @@ namespace PersonalBlogBE.Models
 {
     public class Category
     {
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required, Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }

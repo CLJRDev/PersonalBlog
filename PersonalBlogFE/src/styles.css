@@ -198,3 +198,8 @@ body {
 .ant-modal-content {
   border-radius: 8px;
 }
+
+.custom-toast {
+  min-width: 450px !important;
+  max-width: 600px !important;
+}

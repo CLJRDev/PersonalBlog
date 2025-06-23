@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -13,8 +14,8 @@ namespace PersonalBlogBE.Controllers
 {
     [Route("api/[controller]")]    
     [ApiController]
-    [Authorize] // Chỉ cho phép người dùng đã đăng nhập truy cập
-    [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
+    //[Authorize] // Chỉ cho phép người dùng đã đăng nhập truy cập
+    //[Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
     public class UserController : ControllerBase
     {
         private readonly BlogDbContext _context;
@@ -33,12 +34,12 @@ namespace PersonalBlogBE.Controllers
                 return NotFound(new {message = "User list is empty!"});
             }
 
-            return await _context.Users.ToListAsync();
+            return await _context.Users.OrderBy(x => x.CreatedAt).ToListAsync();
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
             if (_context.Users == null)
             {
@@ -57,7 +58,7 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, [FromForm] UserDto payload)
+        public async Task<IActionResult> PutUser(string id, [FromForm] UserDto payload)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)
@@ -160,9 +161,9 @@ namespace PersonalBlogBE.Controllers
             {
                 return BadRequest(new { message = "Email already exists!" });
             }
-           
+                       
             var user = new User
-            {
+            {                
                 Username = payload.Username,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(payload.Password),
                 Email = payload.Email,
@@ -206,7 +207,7 @@ namespace PersonalBlogBE.Controllers
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -254,7 +255,7 @@ namespace PersonalBlogBE.Controllers
             return Ok(new { message = "Users created successfully!" });
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }

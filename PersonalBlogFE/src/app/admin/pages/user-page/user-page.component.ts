@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/shared/blog-app.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-page',
@@ -9,6 +10,7 @@ import { User } from 'src/app/shared/blog-app.model';
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   // ========== Public properties ==========
   currentPage: number = 1
@@ -18,6 +20,7 @@ export class UserPageComponent implements OnInit {
   user: User = new User()
   previewImageUrl: string | ArrayBuffer | null = null
   selectedImageFile: File | null = null
+  defaultImage: string = environment.defaultImageUrl
 
   formErrors = {
     username: '',
@@ -71,15 +74,16 @@ export class UserPageComponent implements OnInit {
           this.resetFormErrors()
         },
         error: err => {
-          console.log(err)
-          this.toastr.error(err.errors, 'User Info')
+          console.log(err.error.message)
+          this.toastr.error(err.error.message, 'User Info', {
+            toastClass: 'ngx-toastr custom-toast'
+          })
         }
       })
   }
 
   handleCancel(): void {
-    this.isVisible = false    
-    console.log('Modal cancelled')
+    this.isVisible = false
   }
 
   onImageSelected(event: Event): void {
@@ -96,7 +100,19 @@ export class UserPageComponent implements OnInit {
     }
   }
 
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.currentPage = 1;
+  }
+
   clearError(field: keyof typeof this.formErrors): void {
+    if (field === 'email') {
+      if (this.user.email && this.isValidEmail(this.user.email)) {
+        this.formErrors.email = '';
+      }
+      return;
+    }
+
     if (this.formErrors[field]) {
       this.formErrors[field] = '';
     }
@@ -104,8 +120,11 @@ export class UserPageComponent implements OnInit {
 
   resetForm() {
     this.user = new User
-    this.previewImageUrl = '../../../../assets/images/admin/default-avt.png'
+    this.previewImageUrl = this.defaultImage
     this.selectedImageFile = null
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 
   resetFormErrors() {
@@ -136,6 +155,9 @@ export class UserPageComponent implements OnInit {
     if (!this.user.email || this.user.email.trim() === '') {
       this.formErrors.email = 'Email is required'
       result = true
+    } else if (!this.isValidEmail(this.user.email)) {
+      this.formErrors.email = 'Email is invalid';
+      result = true;
     }
 
     if (!this.user.password || this.user.password.trim() === '') {
@@ -149,6 +171,11 @@ export class UserPageComponent implements OnInit {
     }
 
     return result
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   }
 
   // ========== Getter ==========

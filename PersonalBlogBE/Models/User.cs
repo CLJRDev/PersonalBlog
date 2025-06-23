@@ -5,8 +5,7 @@ namespace PersonalBlogBE.Models
 {
     public class User
     {
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required, Column(TypeName="nvarchar(100)")]
         public string Username { get; set; }
@@ -14,7 +13,7 @@ namespace PersonalBlogBE.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        [Required, Column(TypeName ="nvarchar(255)"), EmailAddress]
+        [Required, Column(TypeName ="nvarchar(255)"), EmailAddress()]
         public string Email { get; set; }
 
         [Required, Column(TypeName="nvarchar(255)")]

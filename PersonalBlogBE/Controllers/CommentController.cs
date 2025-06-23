@@ -35,7 +35,7 @@ namespace PersonalBlogBE.Controllers
 
         // GET: api/Comment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
+        public async Task<ActionResult<Comment>> GetComment(string id)
         {
           if (_context.Comments == null)
           {
@@ -54,7 +54,7 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/Comment/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutComment(int id, Comment comment)
+        public async Task<IActionResult> PutComment(string id, Comment comment)
         {
             if (id != comment.Id)
             {
@@ -117,7 +117,7 @@ namespace PersonalBlogBE.Controllers
             return NoContent();
         }
 
-        private bool CommentExists(int id)
+        private bool CommentExists(string id)
         {
             return (_context.Comments?.Any(e => e.Id == id)).GetValueOrDefault();
         }

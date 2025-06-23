@@ -36,7 +36,7 @@ namespace PersonalBlogBE.Controllers
 
         // GET: api/Category/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<Category>> GetCategory(string id)
         {
           if (_context.Categories == null)
           {
@@ -57,7 +57,7 @@ namespace PersonalBlogBE.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
-        public async Task<IActionResult> PutCategory(int id, Category obj)
+        public async Task<IActionResult> PutCategory(string id, Category obj)
         {
             var category   = await _context.Categories.FindAsync(id);
             if(category == null)
@@ -113,7 +113,7 @@ namespace PersonalBlogBE.Controllers
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(string id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -128,7 +128,7 @@ namespace PersonalBlogBE.Controllers
             return Ok(new { message = "Category deleted successfully!" });
         }
 
-        private bool CategoryExists(int id)
+        private bool CategoryExists(string id)
         {
             return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }

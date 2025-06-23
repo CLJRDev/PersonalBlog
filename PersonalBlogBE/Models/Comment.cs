@@ -5,10 +5,9 @@ namespace PersonalBlogBE.Models
 {
     public class Comment
     {
-        [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required]
-        public int PostId { get; set; }
+        public string PostId { get; set; }
         public Post Post { get; set; }
 
         [Required, Column(TypeName = "nvarchar(100)")]

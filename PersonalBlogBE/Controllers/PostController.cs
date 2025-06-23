@@ -36,7 +36,7 @@ namespace PersonalBlogBE.Controllers
 
         // GET: api/Post/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        public async Task<ActionResult<Post>> GetPost(string id)
         {
             if (_context.Posts == null)
             {
@@ -55,7 +55,7 @@ namespace PersonalBlogBE.Controllers
         // PUT: api/Post/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id,[FromForm] PostDto form)
+        public async Task<IActionResult> PutPost(string id,[FromForm] PostDto form)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
@@ -167,7 +167,7 @@ namespace PersonalBlogBE.Controllers
 
         // DELETE: api/Post/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost(string id)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
@@ -199,7 +199,7 @@ namespace PersonalBlogBE.Controllers
             return Ok(new { message = "Post deleted successfully!" });
         }
 
-        private bool PostExists(int id)
+        private bool PostExists(string id)
         {
             return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
