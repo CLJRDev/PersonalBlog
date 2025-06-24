@@ -77,7 +77,8 @@ namespace PersonalBlogBE.Controllers
                     user.Username,
                     user.Email,
                     user.IsAdmin
-                }
+                },
+                message = "Welcome " + user.FullName + "."
             });
         }
 

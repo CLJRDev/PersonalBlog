@@ -15,7 +15,8 @@ export class UserPageComponent implements OnInit {
   // ========== Public properties ==========
   currentPage: number = 1
   pageSize: number = 10
-  isVisible = false
+  isAddModalVisible = false
+  isDeleteModalVisible = false
 
   user: User = new User()
   previewImageUrl: string | ArrayBuffer | null = null
@@ -45,14 +46,19 @@ export class UserPageComponent implements OnInit {
     this.currentPage = page
   }
 
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.currentPage = 1;
+  }
+
   showModal(isUpdate: boolean = false, id: string = ''): void {
     if (isUpdate && id) {
       this.isUpdate = isUpdate
-      this.getdUser(id)
+      this.getUser(id)
     } else {
       this.resetForm()
     }
-    this.isVisible = true
+    this.isAddModalVisible = true
     this.resetFormErrors()
   }
 
@@ -64,7 +70,7 @@ export class UserPageComponent implements OnInit {
     }
   }
 
-  getdUser(id: string): void {
+  getUser(id: string): void {
     this.service.getUser(id).subscribe({
       next: res => {
         this.user = res as User
@@ -147,23 +153,29 @@ export class UserPageComponent implements OnInit {
   }
 
   deleteUser(id: string): void {
-    if (window.confirm("Are you sure to delete this user?")) {
-      this.service.deleteUser(id).subscribe({
-        next: res => {
-          this.toastr.success(res.message, 'User Info')
-          this.service.refreshUser()
-        },
-        error: err => {
-          this.toastr.error(err.error.message, 'User Info', {
-            toastClass: 'ngx-toastr custom-toast'
-          })
-        }
-      })
-    }
+    this.service.deleteUser(id).subscribe({
+      next: res => {
+        this.toastr.success(res.message, 'User Info')
+        this.service.refreshUser()
+        this.resetForm()
+        this.isDeleteModalVisible = false
+      },
+      error: err => {
+        this.toastr.error(err.error.message, 'User Info', {
+          toastClass: 'ngx-toastr custom-toast'
+        })
+      }
+    })
   }
 
-  handleCancel(): void {
-    this.isVisible = false
+  handleCancel(isDeleteModal: boolean): void {
+    if (isDeleteModal) this.isDeleteModalVisible = false
+    else this.isAddModalVisible = false
+  }
+
+  showDeleteModal(id: string): void {
+    this.isDeleteModalVisible = true
+    this.getUser(id)
   }
 
   onImageSelected(event: Event): void {
@@ -178,11 +190,6 @@ export class UserPageComponent implements OnInit {
       }
       reader.readAsDataURL(file)
     }
-  }
-
-  onPageSizeChange(size: number): void {
-    this.pageSize = size;
-    this.currentPage = 1;
   }
 
   clearError(field: keyof typeof this.formErrors): void {
@@ -285,4 +292,8 @@ export class UserPageComponent implements OnInit {
     width: '650px'
   };
 
+  modalDeleteStyle = {
+    width: '300px',
+    top: '250px'
+  }
 }

@@ -18,14 +18,21 @@
       <span class="px-2 fs-6" style="white-space: nowrap;">or sign in with</span>
       <div class="flex-grow-1" style="border-top: 1px solid #ccc;"></div>
     </div>
-    <div class="d-flex flex-column gap-2">
-      <label style="font-weight: 600;" for="username">Username</label>
-      <input [(ngModel)]="username" id="username" type="text" class="mb-0" placeholder="" name="username" required>
-    </div>
-    <div class="d-flex flex-column gap-2">
-      <label style="font-weight: 600;" for="password">Password</label>
-      <input [(ngModel)]="password" id="password" type="text" class="mb-0" type="password" name="password"
-        autocomplete="new-password" required>
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-column gap-1">
+        <label style="font-weight: 600;" for="username">Username</label>
+        <input [(ngModel)]="username" id="username" type="text" class="mb-0" placeholder="" name="username" required
+          (ngModelChange)="clearError('username')">
+        <small class="text-danger text-end" [style.visibility]="formErrors.username ? 'visible' : 'hidden'"
+          style="height: 12px;">{{ formErrors.username }}</small>
+      </div>
+      <div class="d-flex flex-column gap-1">
+        <label style="font-weight: 600;" for="password">Password</label>
+        <input [(ngModel)]="password" id="password" type="text" class="mb-0" type="password" name="password"
+          autocomplete="new-password" required (ngModelChange)="clearError('password')">
+        <small class="text-danger text-end" [style.visibility]="formErrors.password ? 'visible' : 'hidden'"
+          style="height: 12px;">{{ formErrors.password }}</small>
+      </div>
     </div>
     <div class="d-flex justify-content-between align-items-center">
       <div class="ps-2">

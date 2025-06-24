@@ -1,1 +1,96 @@
-<p>category-page works!</p>
+<div class="page-container d-flex flex-column gap-5">
+  <div class="form-container d-flex justify-content-between align-items-center p-4">
+    <div class="search-container d-flex align-items-center justify-content-center">
+      <input type="text" class="" placeholder="Search Categories..." />
+      <button class="but-search"><i class="bi bi-search search-icon fs-5"></i></button>
+    </div>
+    <button (click)="showModal()" class="btn-add">Add Category</button>
+  </div>
+  <div class="table-container p-4">
+    <table class="table">
+      <thead>
+        <tr style="font-weight: 600;">
+          <td class="text-center" style="width: 50px;">#</td>
+          <td class="" style="width: 200px;">Name</td>
+          <td class="" style="width: 200px;">Slug</td>
+          <td class="">Description</td>
+          <td class="text-center" style="width: 200px;">Created Date</td>
+          <td class="text-center" style="width: 100px;">Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of paginatedCategories, let i = index">
+          <td style="width: 50px;" class="text-center">{{(currentPage - 1) * pageSize + i + 1}}</td>
+          <td style="width: 200px;">{{category.name}}</td>
+          <td style="width: 200px;" class="">{{category.slug}}</td>
+          <td class="">{{category.description}}</td>
+          <td style="width: 200px;" class="text-center">{{category.createdAt | dateFormat}}</td>
+          <td style="width: 100px;" class="text-center">
+            <span (click)="showModal(true, category.id)" class="me-2" style="cursor: pointer;">
+              <i class="bi bi-pencil-square fs-5"></i></span>
+            <span (click)="showDeleteModal(category.id)" class="" style="cursor: pointer;">
+              <i class="bi bi-trash3 fs-5"></i></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <nz-pagination [nzPageIndex]="currentPage" [nzTotal]="totalItems" nzShowSizeChanger
+        (nzPageIndexChange)="onPageChange($event)" [nzPageSize]="pageSize"
+        (nzPageSizeChange)="onPageSizeChange($event)">
+      </nz-pagination>
+    </div>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isAddModalVisible" [nzStyle]="modalStyle" [nzFooter]="null" (nzOnCancel)="handleCancel(false)">
+  <ng-container *nzModalContent>
+    <div class="modal-container d-flex flex-column gap-4">
+      <div class="header fs-5 text-center" style="font-weight: 600;">{{isUpdate ? "Update Category" : "Add Category"}}
+      </div>
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex gap-3">
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" class="modal-input" [(ngModel)]="category.name"
+              (ngModelChange)="clearError('name')" />
+            <small class="text-danger text-end" [style.visibility]="formErrors.name ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.name }}</small>
+          </div>
+          <div class="d-flex flex-column gap-1 w-100">
+            <label for="slug">Slug</label>
+            <input id="slug" type="text" name="slug" class="modal-input" [(ngModel)]="category.slug"
+              (ngModelChange)="clearError('slug')" />
+            <small class="text-danger text-end" [style.visibility]="formErrors.slug ? 'visible' : 'hidden'"
+              style="height: 12px;">{{ formErrors.slug }}</small>
+          </div>
+        </div>
+        <div class="d-flex flex-column gap-1 w-100">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" class="modal-input" rows="5" [(ngModel)]="category.description"
+            (ngModelChange)="clearError('description')" style="resize: vertical;"></textarea>
+          <small class="text-danger text-end" [style.visibility]="formErrors.description ? 'visible' : 'hidden'"
+            style="height: 12px;">{{ formErrors.description }}</small>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="submitCategory()" type="submit" class="btn-modal-add">{{isUpdate ? "Update" : "Add"}}</button>
+        <button (click)="handleCancel(false)" type="button" class="btn-modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDeleteModalVisible" [nzStyle]="modalDeleteStyle" [nzFooter]="null"
+  (nzOnCancel)="handleCancel(true)">
+  <ng-container *nzModalContent>
+    <div class="modal-container d-flex flex-column gap-3">
+      <div class="header fs-5 text-center" style="font-weight: 600;">Delete</div>
+      <p class="m-0">Sure to delete <span style="font-weight: 600;">{{category.name}}</span>?</p>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="deleteCategory(category.id)" class="btn-modal-add" type="submit">Delete</button>
+        <button (click)="handleCancel(true)" type="button" class="btn-modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
