@@ -96,11 +96,10 @@ export class CategoryPageComponent {
   updateCategory(): void {
     if (this.categoryValidation()) return
 
-    const formData = {
-      name: this.category.name,
-      slug: this.category.slug,
-      description: this.category.description
-    }
+    const formData = new FormData()
+    formData.append('Name', this.category.name)
+    formData.append('Slug', this.category.slug)
+    formData.append('Description', this.category.description)
 
     this.service.updateCategory(this.category.id, formData).subscribe({
       next: res => {
@@ -111,9 +110,7 @@ export class CategoryPageComponent {
       },
       error: err => {
         console.log(err.error.message)
-        this.toastr.error(err.error.message, 'Category Info', {
-          toastClass: 'ngx-toastr custom-toast'
-        })
+        this.toastr.error(err.error.message, 'Category Info')
       }
     })
   }
@@ -121,11 +118,10 @@ export class CategoryPageComponent {
   addCagetory(): void {
     if (this.categoryValidation()) return
 
-    const formData = {
-      name: this.category.name,
-      slug: this.category.slug,
-      description: this.category.description
-    }
+    const formData = new FormData()
+    formData.append('Name', this.category.name)
+    formData.append('Slug', this.category.slug)
+    formData.append('Description', this.category.description)
 
     this.service.addCategory(formData)
       .subscribe({
@@ -137,9 +133,7 @@ export class CategoryPageComponent {
         },
         error: err => {
           console.log(err.error.message)
-          this.toastr.error(err.error.message, 'Category Info', {
-            toastClass: 'ngx-toastr custom-toast'
-          })
+          this.toastr.error(err.error.message, 'Category Info')
         }
       })
   }

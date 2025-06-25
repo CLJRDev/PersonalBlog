@@ -15,8 +15,7 @@ export class CategoryService {
   getHeaders() {
     const token = localStorage.getItem('token')
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Bearer ${token}`
     })
     return headers
   }
@@ -40,13 +39,13 @@ export class CategoryService {
     return this.http.get(`${this.apiUrl}/Category/${id}`, { headers });
   }
 
-  addCategory(formData: object): Observable<any> {
+  addCategory(formData: FormData): Observable<any> {
     const headers = this.getHeaders()
 
     return this.http.post(`${this.apiUrl}/Category`, formData, { headers });
   }
 
-  updateCategory(id: string, formData: object): Observable<any> {
+  updateCategory(id: string, formData: FormData): Observable<any> {
     const headers = this.getHeaders()
 
     return this.http.put(`${this.apiUrl}/Category/${id}`, formData, { headers });

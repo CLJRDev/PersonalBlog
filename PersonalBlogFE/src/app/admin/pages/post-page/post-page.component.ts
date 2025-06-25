@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./post-page.component.css']
 })
 export class PostPageComponent {
-
+ 
 }

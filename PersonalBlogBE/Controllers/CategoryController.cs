@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PersonalBlogBE.Dtos;
 using PersonalBlogBE.Models;
 
 namespace PersonalBlogBE.Controllers
@@ -57,17 +58,34 @@ namespace PersonalBlogBE.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
-        public async Task<IActionResult> PutCategory(string id, Category obj)
+        public async Task<IActionResult> PutCategory(string id, [FromForm]CategoryDto payload)
         {
-            var category   = await _context.Categories.FindAsync(id);
+            var category   = await _context.Categories.FindAsync(id);            
             if(category == null)
             {
                 return NotFound(new {message = "Category not found!"});
             }
 
-            category.Name = obj.Name;
-            category.Slug = obj.Slug;
-            category.Description = obj.Description;
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid data!" });
+            }
+
+            var exisitingCategory = await _context.Categories
+                .Where(c => c.Id != id)
+                .FirstOrDefaultAsync(c => c.Name == payload.Name || c.Slug == payload.Slug);
+
+            if(exisitingCategory != null)
+            {
+                if (exisitingCategory.Name == payload.Name)                
+                    return BadRequest(new { message = "Category name already exists!" });                
+                if (exisitingCategory.Slug == payload.Slug)                
+                    return BadRequest(new { message = "Slug already exists!" });                
+            }
+
+            category.Name = payload.Name;
+            category.Slug = payload.Slug;
+            category.Description = payload.Description;
 
             try
             {
@@ -85,10 +103,37 @@ namespace PersonalBlogBE.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(Policy = "AdminOnly")] // Chỉ cho phép Admin truy cập
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategory([FromForm]CategoryDto payload)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid data!" });
+            }
+
+            bool nameExists = await _context.Categories.AnyAsync(u => u.Name == payload.Name);
+            if (nameExists)
+            {
+                return BadRequest(new { message = "Category already exists!" });
+            }
+
+            bool slugExists = await _context.Categories.AnyAsync(u => u.Slug == payload.Slug);
+            if (slugExists)
+            {
+                return BadRequest(new { message = "Slug already exists!" });
+            }
+
+            var category = new Category
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = payload.Name,
+                Slug = payload.Slug,
+                Description = payload.Description,
+                CreatedAt = DateTime.Now
+            };
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
+
 
             return Ok(new { message = "Category created successfully!" });
         }
