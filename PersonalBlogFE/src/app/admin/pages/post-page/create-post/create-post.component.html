@@ -1,0 +1,25 @@
+<div class="create-post-container">
+  <div class="create-post-form-container mb-3 d-flex flex-column">
+    <div class="mb-2 ms-2">
+      <label *ngIf="!isImageDisplayed" class="btn-add-img" for="post-image">Add a cover image</label>
+      <input id="post-image" style="display: none;" type="file" (change)="onImageSelected($event)" #fileInput>
+    </div>
+    <div *ngIf="isImageDisplayed" class="d-flex align-items-center gap-2">
+      <img [src]="post.imageUrl ? 'http://localhost:5019' + post.imageUrl : previewImageUrl" alt="Cover Image"
+        style="width: 300px; height: 150px; object-fit: contain;">
+      <button class="btn-add-img">Change</button>
+      <button (click)="removeImage()" class="btn-add-img text-danger">Remove</button>
+    </div>
+    <textarea class="post-title-input fs-1 ms-2" type="text" placeholder="New post title here..."
+      (input)="autoResize($event)" rows="1"></textarea>
+    <div>
+      <nz-select [(ngModel)]="post.category" nzShowSearch nzPlaceHolder="Select a category">
+        <nz-option *ngFor="let option of categoryService.categoryList" [nzLabel]="option.name"
+          [nzValue]="option.id"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="editor-container">
+    <ckeditor [editor]="Editor" [config]="editorConfig" [(ngModel)]="post.content"></ckeditor>
+  </div>
+</div>

@@ -31,7 +31,35 @@ namespace PersonalBlogBE.Controllers
             {
                 return NotFound(new { message = "No posts found!" });
             }
-            return await _context.Posts.ToListAsync();
+
+            var posts = await _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.Author)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Title,
+                    p.Slug,
+                    p.Content,
+                    p.ImageUrl,
+                    p.CreatedAt,
+                    p.UpdatedAt,
+                    p.IsPublished,
+                    Category = new
+                    {
+                        p.Category.Id,
+                        p.Category.Name
+                    },
+                    Author = new
+                    {
+                        p.Author.Id,
+                        p.Author.IsAdmin,
+                        p.Author.FullName,
+                        p.Author.ImageUrl
+                    }
+                }).ToListAsync();
+
+            return Ok(posts);
         }
 
         // GET: api/Post/5

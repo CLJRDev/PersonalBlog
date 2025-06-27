@@ -15,6 +15,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
 import { AppComponent } from './app.component';
@@ -30,6 +33,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AuthLayoutComponent } from './auth/auth-layout.component';
+import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
 
 
 registerLocaleData(en);
@@ -49,7 +53,8 @@ registerLocaleData(en);
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +69,9 @@ registerLocaleData(en);
     NzButtonModule,
     NzModalModule,
     CommonModule,
+    CKEditorModule,
+    NzRadioModule,
+    NzSelectModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-top-center',

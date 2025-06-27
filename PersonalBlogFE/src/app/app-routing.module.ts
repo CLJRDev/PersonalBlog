@@ -9,6 +9,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AuthLayoutComponent } from './auth/auth-layout.component';
+import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
 import { authGuard } from './auth/auth.guard';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'user', component: UserPageComponent },
       { path: 'post', component: PostPageComponent },
+      { path: 'post/create', component: CreatePostComponent },
       { path: 'category', component: CategoryPageComponent },
       { path: 'dashboard', component: DashboardPageComponent }
     ]

@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@ckeditor/ckeditor5-angular": "^9.1.0",
+    "@ckeditor/ckeditor5-build-classic": "^44.3.0",
     "@ctrl/tinycolor": "^4.1.0",
     "bootstrap-icons": "^1.13.1",
     "date-fns": "^4.1.0",

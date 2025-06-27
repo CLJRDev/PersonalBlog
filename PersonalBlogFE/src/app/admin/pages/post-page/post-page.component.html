@@ -1,1 +1,62 @@
-<p>post-page works!</p>
+<div class="page-container d-flex flex-column gap-5">
+  <div class="form-container d-flex justify-content-between align-items-center p-4">
+    <div class="search-container d-flex align-items-center justify-content-center">
+      <input type="text" class="" placeholder="Search Posts..." />
+      <button class="but-search"><i class="bi bi-search search-icon fs-5"></i></button>
+    </div>
+    <a routerLink="/admin/post/create" class="text-decoration-none">
+      <button class="btn-add">Create Post</button>
+    </a>
+  </div>
+
+  <div class="table-container p-4">
+    <table class="table">
+      <thead>
+        <tr style="font-weight: 600;">
+          <td class="text-center" style="width: 50px;">#</td>
+          <td class="">Title</td>
+          <td class="text-center" style="width: 150px;">Created Date</td>
+          <td class="text-center" style="width: 80px;">Published</td>
+          <td class="text-center" style="width: 200px;">Category</td>
+          <td class="text-center" style="width: 150px;">Author</td>
+          <td class="text-center" style="width: 100px;">Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of paginatedPosts, let i = index">
+          <td style="width: 50px;" class="text-center">{{(currentPage - 1) * pageSize + i + 1}}</td>
+          <td class="">{{post.title}}</td>
+          <td style="width: 150px;" class="text-center">{{post.createdAt | dateFormat}}</td>
+          <td class="text-center" style="width: 80px;"><i
+              [ngStyle]="{ color: post.isPublished ? '#389e0d' : '#cf1322' }"
+              [ngClass]="['bi', 'fs-5', post.isPublished ? 'bi-check-circle' : 'bi-ban']"></i></td>
+          <td style="width: 200px;" class="text-center">{{post.category?.name}}</td>
+          <td style="width: 150px;" class="d-flex align-items-center justify-content-center gap-3">
+            <img class="avt-img"
+              [src]="post.author?.imageUrl ? 'http://localhost:5019' + post.author?.imageUrl : defaultImage"
+              alt="Avatar">
+            <div class="d-flex flex-column justify-content-center">
+              <span class="fw-bold">{{post.author?.fullName}}</span>
+              <span [ngClass]="['role-tag', post.author?.isAdmin ? 'admin-tag' : 'user-tag']">
+                {{post.author?.isAdmin ? 'Admin' : 'User'}}
+              </span>
+            </div>
+          </td>
+          <td style="width: 100px;" class="text-center">
+            <span class="me-2" style="cursor: pointer;">
+              <i class="bi bi-pencil-square fs-5"></i></span>
+            <span class="" style="cursor: pointer;">
+              <i class="bi bi-trash3 fs-5"></i></span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <nz-pagination [nzPageIndex]="currentPage" [nzTotal]="totalItems" nzShowSizeChanger
+        (nzPageIndexChange)="onPageChange($event)" [nzPageSize]="pageSize"
+        (nzPageSizeChange)="onPageSizeChange($event)">
+      </nz-pagination>
+    </div>
+  </div>
+</div>
