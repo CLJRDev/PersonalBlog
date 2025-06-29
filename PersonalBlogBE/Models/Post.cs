@@ -17,7 +17,7 @@ namespace PersonalBlogBE.Models
         public string Content { get; set; }
 
         [Column(TypeName="nvarchar(255)")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

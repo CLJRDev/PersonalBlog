@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PersonalBlogBE.Dto;
 using PersonalBlogBE.Models;
+using PersonalBlogBE.Shared;
 
 namespace PersonalBlogBE.Controllers
 {
@@ -149,7 +150,7 @@ namespace PersonalBlogBE.Controllers
             var post = new Post
             {
                 Title = form.Title,
-                Slug = form.Slug,
+                Slug = SlugHelper.GenerateSlug(form.Title),
                 Content = form.Content,
                 ImageUrl = null,
                 CreatedAt = DateTime.Now,

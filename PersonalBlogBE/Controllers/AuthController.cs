@@ -76,7 +76,9 @@ namespace PersonalBlogBE.Controllers
                 user = new {                    
                     user.Username,
                     user.Email,
-                    user.IsAdmin
+                    user.IsAdmin,
+                    user.FullName,
+                    user.Id
                 },
                 message = "Welcome " + user.FullName + "."
             });

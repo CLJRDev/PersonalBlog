@@ -10,8 +10,8 @@ export class SidebarComponent {
 
   constructor(private router: Router) { }
 
-  logout() {
-    localStorage.removeItem('token');
+  logout() {    
+    localStorage.clear()
     this.router.navigate(['/auth']);
   }
 }

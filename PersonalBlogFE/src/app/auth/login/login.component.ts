@@ -28,6 +28,8 @@ export class LoginComponent {
         console.log(res);
         this.toastr.success(res.message, 'Login')
         localStorage.setItem('token', res.token);
+        localStorage.setItem('fullname', res.user.fullname);
+        localStorage.setItem('userId', res.user.id);
         this.router.navigate(['/admin']);
       },
       error: err => {
