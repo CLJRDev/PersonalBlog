@@ -11,6 +11,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { AuthLayoutComponent } from './auth/auth-layout.component';
 import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
 import { authGuard } from './auth/auth.guard';
+import { PostViewComponent } from './admin/pages/post-page/post-view/post-view.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'user', component: UserPageComponent },
       { path: 'post', component: PostPageComponent },
       { path: 'post/create', component: CreatePostComponent },
+      { path: 'post/view/:id', component: PostViewComponent },
       { path: 'category', component: CategoryPageComponent },
       { path: 'dashboard', component: DashboardPageComponent }
     ]

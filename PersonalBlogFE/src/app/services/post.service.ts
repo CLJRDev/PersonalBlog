@@ -40,4 +40,10 @@ export class PostService {
 
     return this.http.post(`${this.apiUrl}/Post`, formData, { headers });
   }
+
+  getSinglePost(id: string): Observable<any> {
+    const headers = this.getHeaders()
+
+    return this.http.get(`${this.apiUrl}/Post/${id}`, { headers });
+  }
 }

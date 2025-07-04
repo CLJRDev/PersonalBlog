@@ -34,6 +34,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AuthLayoutComponent } from './auth/auth-layout.component';
 import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
+import { PostViewComponent } from './admin/pages/post-page/post-view/post-view.component';
 
 
 registerLocaleData(en);
@@ -54,7 +55,8 @@ registerLocaleData(en);
     RegisterComponent,
     ForgotPasswordComponent,
     AuthLayoutComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    PostViewComponent
   ],
   imports: [
     BrowserModule,

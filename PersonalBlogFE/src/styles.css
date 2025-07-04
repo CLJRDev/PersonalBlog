@@ -203,3 +203,78 @@ body {
   min-width: 450px !important;
   max-width: 600px !important;
 }
+
+/* Poit view style */
+
+.view-post-container {
+  width: 770px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.view-post-container .author-avt {
+  width: 50px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.view-post-container .post-action {
+  background: #e6fffb;
+  border: 1px solid #87e8de;
+  border-radius: 8px;
+}
+
+.view-post-container .post-action a {
+  color: #08979c;
+}
+
+.view-post-container .post-action a:hover {
+  background-color: rgba(0, 0, 0, 0.035);
+  border-radius: 5px;
+}
+
+.view-post-container .post-content {
+  font-size: 16px;
+}
+
+.view-post-container .post-content figure.table {
+  overflow-x: auto;
+}
+
+.view-post-container .post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.view-post-container .post-content th,
+.view-post-container .post-content td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.view-post-container .post-content table tr:first-child th,
+.view-post-container .post-content table tr:first-child td {
+  font-weight: bold;
+}
+
+.view-post-container .post-content figure.image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2em 0;
+}
+
+.view-post-container .post-content figure.image img {
+  width: 90%;
+  height: auto;
+  object-fit: contain;
+}
+
+.view-post-container .post-content figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  max-width: 100%;
+}

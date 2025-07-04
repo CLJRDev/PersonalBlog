@@ -71,7 +71,9 @@ export class CreatePostComponent {
     }
   }
 
-  publish(): void {
+  submit(): void {
+    if (this.postValidation()) return
+
     const formData = new FormData()
     formData.append('Title', this.post.title)
     formData.append('Content', this.post.content)
@@ -88,6 +90,7 @@ export class CreatePostComponent {
         next: res => {
           console.log(res)
           this.toastr.success(res.message, 'Post Info')
+          this.clear()
         },
         error: err => {
           console.log(err.error.message)
@@ -107,6 +110,25 @@ export class CreatePostComponent {
     }
     this.post = new Post()
     this.categoryIdSelected = ''
+  }
+
+  postValidation(): boolean {
+    if (!this.post.title || this.post.title.trim() === '') {
+      this.toastr.error('Title is required.', 'Post Info')
+      return true
+    }
+
+    if (!this.categoryIdSelected || this.categoryIdSelected.trim() === '') {
+      this.toastr.error('Category is required.', 'Post Info')
+      return true
+    }
+
+    if (!this.post.content || this.post.content.trim() === '') {
+      this.toastr.error('Content is required.', 'Post Info')
+      return true
+    }
+
+    return false
   }
 }
 
