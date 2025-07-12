@@ -122,10 +122,9 @@ namespace PersonalBlogBE.Controllers
 
             //1. Lấy thông tin từ form
             post.Title = form.Title;
-            post.Slug = form.Slug;
+            post.Slug = SlugHelper.GenerateSlug(form.Title);
             post.Content = form.Content;
             post.UpdatedAt = DateTime.Now;
-            post.IsPublished = form.IsPublished;
             post.CategoryId = form.CategoryId;
 
             //2. Xử lý ảnh
@@ -155,16 +154,29 @@ namespace PersonalBlogBE.Controllers
                 }
                 post.ImageUrl = $"/images/posts/{fileName}";
             }
+            else
+            {
+                //Nếu không có ảnh mới mà có ảnh cũ, thì xóa ảnh cũ (Tức là người dùng đã remove ảnh khi sửa bài đăng)
+                if (!string.IsNullOrEmpty(post.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                    post.ImageUrl = null; //Xóa đường dẫn ảnh
+                }
+            }
 
             //3. Lưu vào database
             try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;                
-            }
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
 
             return Ok(new { message = "Post updated successfully!" });
         }
@@ -182,7 +194,7 @@ namespace PersonalBlogBE.Controllers
                 Content = form.Content,
                 ImageUrl = null,
                 CreatedAt = DateTime.Now,
-                IsPublished = form.IsPublished,
+                IsPublished = true,
                 CategoryId = form.CategoryId,
                 AuthorId = form.AuthorId
             };
@@ -220,6 +232,32 @@ namespace PersonalBlogBE.Controllers
             }
 
             return Ok(new { message = "Post created successfully!" });
+        }
+
+        // UNPUBLISH: api/Post/publish
+        [HttpPut("publish/{id}")]
+        public async Task<IActionResult> Publish(string id, [FromForm] bool isPublished)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return NotFound(new { message = "Post not found!" });
+            }
+
+            post.IsPublished = isPublished;
+            post.UpdatedAt = DateTime.Now;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            string message = isPublished ? "Post has been published!" : "Post has been unpublished!";
+
+            return Ok(new {message});
         }
 
         // DELETE: api/Post/5

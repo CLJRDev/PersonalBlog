@@ -5,7 +5,7 @@
       <input id="post-image" style="display: none;" type="file" (change)="onImageSelected($event, true)" #fileInput>
     </div>
     <div *ngIf="isImageDisplayed" class="d-flex align-items-center gap-2">
-      <img [src]="post.imageUrl ? 'http://localhost:5019' + post.imageUrl : previewImageUrl" alt="Cover Image"
+      <img [src]="previewImageUrl ? previewImageUrl : ('http://localhost:5019' + post.imageUrl)" alt="Cover Image"
         style="width: 300px; height: 150px; object-fit: contain;">
       <label class="btn-add-img" for="change-image">Change</label>
       <input style="display: none;" id="change-image" type="file" class="btn-add-img"
@@ -13,7 +13,7 @@
       <button (click)="removeImage()" class="btn-add-img text-danger">Remove</button>
     </div>
     <textarea class="post-title-input fs-1 ms-2" [(ngModel)]="post.title" type="text"
-      placeholder="New post title here..." (input)="autoResize($event)" rows="1"></textarea>
+      placeholder="New post title here..." (input)="autoResize($event)" rows="1" #titleTextarea></textarea>
     <div>
       <nz-select [(ngModel)]="categoryIdSelected" nzShowSearch nzPlaceHolder="Select a category">
         <nz-option *ngFor="let category of categoryService.categoryList" [nzLabel]="category.name"
@@ -26,7 +26,23 @@
   </div>
 </div>
 <div class="d-flex gap-2">
-  <button class="btn-add-img text-white" style="background-color: var(--sys-primary);"
-    (click)="submit()">Publish</button>
-  <button (click)="clear()" class="btn-add-img text-danger">Clear</button>
+  <button class="btn-add-img text-white" style="background-color: var(--sys-primary);" (click)="submit()">{{!isEditPost
+    ? 'Publish' : 'Save'}}</button>
+  <button *ngIf="!isEditPost" (click)="clear()" class="btn-add-img text-danger">Clear</button>
+  <button *ngIf="isEditPost" (click)="showModel(false)" class="btn-add-img">{{this.post.isPublished ? 'Unpublish' : 'Publish'}}</button>
+  <button *ngIf="isEditPost" (click)="showModel(true)" class="btn-add-img text-danger">Delete</button>
 </div>
+
+<nz-modal [(nzVisible)]="isModalVisible" [nzStyle]="modalStyle" [nzFooter]="null"
+  (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    <div class="modal-container d-flex flex-column gap-3">
+      <div class="header fs-5 text-center" style="font-weight: 600;">{{isDeleteModal ? 'Delete' : this.post.isPublished ? 'Unpublish' : 'Publish'}}</div>
+      <p class="m-0">{{isDeleteModal ? 'Sure to delete this post?' : this.post.isPublished ? 'Sure to unpublish this post?' : 'Sure to publish this post?'}}</p>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="isDeleteModal ? deletePost() : changePublish()" class="btn-modal-add" type="button">Sure</button>
+        <button (click)="handleCancel()" type="button" class="btn-modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

@@ -30,7 +30,7 @@
           <td class="text-center" style="width: 80px;"><i
               [ngStyle]="{ color: post.isPublished ? '#389e0d' : '#cf1322' }"
               [ngClass]="['bi', 'fs-5', post.isPublished ? 'bi-check-circle' : 'bi-ban']"></i></td>
-          <td style="width: 200px;" class="text-center">{{post.category?.name}}</td>
+          <td style="width: 200px;" class="text-center">{{post.category?.name || ''}}</td>
           <td style="width: 200px;" class="d-flex align-items-center gap-3">
             <img class="avt-img"
               [src]="post.author?.imageUrl ? 'http://localhost:5019' + post.author?.imageUrl : defaultImage"

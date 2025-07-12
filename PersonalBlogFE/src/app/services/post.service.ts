@@ -37,13 +37,26 @@ export class PostService {
 
   addPost(formData: FormData): Observable<any> {
     const headers = this.getHeaders()
-
     return this.http.post(`${this.apiUrl}/Post`, formData, { headers });
+  }
+
+  updatePost(id: string, formData: FormData): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.put(`${this.apiUrl}/Post/${id}`, formData, { headers });
+  }
+
+  changePublishPost(id: string, formData: FormData): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.put(`${this.apiUrl}/Post/publish/${id}`, formData, { headers });
   }
 
   getSinglePost(id: string): Observable<any> {
     const headers = this.getHeaders()
-
     return this.http.get(`${this.apiUrl}/Post/${id}`, { headers });
+  }
+
+  deletePost(id: string): Observable<any> {
+    const headers = this.getHeaders()
+    return this.http.delete(`${this.apiUrl}/Post/${id}`, { headers });
   }
 }

@@ -1,16 +1,17 @@
 <div class="view-post-container p-4 mb-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div class="d-flex align-items-center gap-2">
-      <img class="author-avt" [src]="post.author?.imageUrl ? 'http://localhost:5019' + post.author?.imageUrl : defaultImage" alt="avatar">      
+      <img class="author-avt"
+        [src]="post.author?.imageUrl ? 'http://localhost:5019' + post.author?.imageUrl : defaultImage" alt="avatar">
       <div class="d-flex flex-column">
         <span class="fs-6" style="font-weight: 600;">{{post.author?.fullName}}</span>
         <span style="font-size: 12px; color: #717171;">{{post.createdAt | dateFormat}}</span>
       </div>
     </div>
     <div class="post-action p-1 d-flex gap-1">
-      <a class="px-2 py-1 text-decoration-none">Edit</a>
+      <a [routerLink]="['/admin/post/edit', post.id]" class="px-2 py-1 text-decoration-none">Edit</a>
       <a class="px-2 py-1 text-decoration-none">Stats</a>
-      <a class="px-2 py-1 text-decoration-none">Delete</a>
+      <a (click)="showModel()" class="px-2 py-1 text-decoration-none">Delete</a>
     </div>
   </div>
   <h2 class="fw-bold mb-1">{{post.title}}</h2>
@@ -18,3 +19,17 @@
   <div class="post-content" [innerHTML]="safeContent">
   </div>
 </div>
+
+<nz-modal [(nzVisible)]="isModalVisible" [nzStyle]="modalStyle" [nzFooter]="null"
+  (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    <div class="modal-container d-flex flex-column gap-3">
+      <div class="header fs-5 text-center" style="font-weight: 600;">Delete</div>
+      <p class="m-0">Sure to delete this post?</p>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="deletePost()" class="btn-modal-add" type="button">Sure</button>
+        <button (click)="handleCancel()" type="button" class="btn-modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

@@ -15,9 +15,6 @@ namespace PersonalBlogBE.Dto
         public string Content { get; set; }
 
         [Required]
-        public bool IsPublished { get; set; }
-
-        [Required]
         public string CategoryId { get; set; }
 
         [Required]

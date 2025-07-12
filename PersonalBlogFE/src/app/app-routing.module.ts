@@ -23,6 +23,7 @@ const routes: Routes = [
       { path: 'user', component: UserPageComponent },
       { path: 'post', component: PostPageComponent },
       { path: 'post/create', component: CreatePostComponent },
+      { path: 'post/edit/:id', component: CreatePostComponent },
       { path: 'post/view/:id', component: PostViewComponent },
       { path: 'category', component: CategoryPageComponent },
       { path: 'dashboard', component: DashboardPageComponent }
