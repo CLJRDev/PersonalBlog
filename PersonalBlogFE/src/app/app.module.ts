@@ -35,6 +35,9 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { AuthLayoutComponent } from './auth/auth-layout.component';
 import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
 import { PostViewComponent } from './admin/pages/post-page/post-view/post-view.component';
+import { BlogLayoutComponent } from './blog/blog-layout.component';
+import { BlogHeaderComponent } from './blog/components/blog-header/blog-header.component';
+import { BlogSidebarComponent } from './blog/components/blog-sidebar/blog-sidebar.component';
 
 
 registerLocaleData(en);
@@ -56,7 +59,10 @@ registerLocaleData(en);
     ForgotPasswordComponent,
     AuthLayoutComponent,
     CreatePostComponent,
-    PostViewComponent
+    PostViewComponent,
+    BlogHeaderComponent,
+    BlogSidebarComponent,
+    BlogLayoutComponent
   ],
   imports: [
     BrowserModule,

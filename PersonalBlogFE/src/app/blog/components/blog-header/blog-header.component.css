@@ -1,0 +1,9 @@
+.header-container {
+  height: 56px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.header-container .header {
+  width: 1380px;
+  padding: 0 16px;
+}

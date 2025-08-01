@@ -35,7 +35,6 @@ export class PostViewComponent {
     this.postService.getSinglePost(postId)
       .subscribe({
         next: res => {
-          console.log(res)
           this.post = res as Post
           this.safeContent = this.sanitizer.bypassSecurityTrustHtml(res.content)
         },

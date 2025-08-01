@@ -12,6 +12,7 @@ import { AuthLayoutComponent } from './auth/auth-layout.component';
 import { CreatePostComponent } from './admin/pages/post-page/create-post/create-post.component';
 import { authGuard } from './auth/auth.guard';
 import { PostViewComponent } from './admin/pages/post-page/post-view/post-view.component';
+import { BlogLayoutComponent } from './blog/blog-layout.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,12 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent }
+    ]
+  },
+  {
+    path: 'blog',
+    component: BlogLayoutComponent, // Assuming you have a BlogLayoutComponent
+    children: [
     ]
   },
   // fallback

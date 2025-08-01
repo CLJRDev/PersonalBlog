@@ -41,11 +41,16 @@ body {
   padding: 16px 8px;
 }
 
-.page-container .form-container .search-container input {
+.page-container .form-container .search-container input,
+.header-container .header .search-container input {
   width: 400px;
   border-radius: 8px;
   padding: 6px 15px;
   border: 1px solid #ced4da;
+}
+
+.header-container .header .search-container input {
+  width: 680px !important;
 }
 
 .modal-container .modal-input {
@@ -78,15 +83,22 @@ body {
 }
 
 .page-container .form-container .search-container input:focus,
-.modal-container .modal-input:focus {
+.modal-container .modal-input:focus,
+.header-container .header .search-container input:focus {
   border: 1px solid var(--sys-primary);
   outline: none;
 }
 
-.page-container .form-container .search-container .but-search {
+.page-container .form-container .search-container .but-search,
+.header-container .header .search-container .but-search {
   border: none;
   background-color: transparent;
   margin-left: -40px;
+}
+
+.page-container .form-container .search-container .but-search:hover,
+.header-container .header .search-container .but-search:hover {
+  color: var(--sys-primary);
 }
 
 .page-container .form-container .btn-add {
@@ -182,7 +194,6 @@ body {
 
 .auth-layout-container .form-container .login-form .btn-login {
   background-color: var(--sys-primary);
-  padding: 8px 10px;
   color: var(--sys-on-primary);
   border: none;
   padding: 10px 20px;
@@ -277,4 +288,36 @@ body {
   color: #555;
   text-align: center;
   max-width: 100%;
+}
+
+.header-container .header .btn-register {
+  color: var(--sys-primary);
+  border: 1px solid var(--sys-primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.header-container .header .btn-register:hover {
+  background-color: var(--sys-primary-active);
+  color: var(--sys-on-primary);
+}
+
+.header-container .header .btn-login {
+  border: none !important;
+  color: var(--sys-primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.header-container .header .btn-login:hover {
+  background-color: rgb(215, 232, 250) !important;
+}
+
+.header-container .header .btn-login:active,
+.header-container .header .btn-register:active {
+  opacity: 0.5;
 }
